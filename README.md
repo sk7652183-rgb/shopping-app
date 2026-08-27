@@ -1,48 +1,159 @@
 # 🛍️ FastAPI Shopping App
 
-A simple full-stack shopping application built with **Python FastAPI**, **SQLite**, **HTML/CSS/JavaScript**, **Docker**, and **GitHub Actions**.
+A full-stack shopping application built with **Python FastAPI**, **SQLite**, **HTML/CSS/JavaScript**, **Docker**, and **GitHub Actions**.
 
-The application provides a web-based shopping UI along with REST APIs for managing products.
+The application provides a web-based shopping interface and REST APIs for managing products. It is also deployed on an **Ubuntu AWS EC2 instance** as part of the DevOps learning project.
+
+---
+
+## 🎥 Demo Video
+
+### 📺 Application Demo
+
+Watch the complete demonstration of the FastAPI Shopping App:
+
+**▶️ [Watch Shopping App Demo]( 
+
+https://github.com/user-attachments/assets/6ff207e4-1aa2-41d3-93bf-4cf6c761c52c
+
+)**
+
+> The demo covers the Shopping UI, product management, FastAPI REST APIs, SQLite database, Docker containerization, automated testing, GitHub Actions, and deployment on Ubuntu/AWS EC2.
+
+### 🚀 Demo Flow
+
+```text
+                    Shopping App
+                         │
+                         ▼
+                  Web Application
+                         │
+             ┌───────────┴───────────┐
+             ▼                       ▼
+       View Products             Add Product
+             │                       │
+             │                       ▼
+             │                SQLite Database
+             │                       │
+             └───────────┬───────────┘
+                         ▼
+                  FastAPI REST API
+                         │
+                         ▼
+                  Docker Container
+                         │
+                         ▼
+                  GitHub Actions
+```
+
+### 🎬 Demo Includes
+
+* 🏠 Shopping application homepage
+* 📦 Product listing
+* ➕ Add new product
+* 🔎 View product
+* ✏️ Update product
+* 🗑️ Delete product
+* 💾 SQLite database
+* 📡 FastAPI REST APIs
+* 📚 Swagger UI
+* 🐳 Docker containerization
+* 🧪 Pytest automated testing
+* ⚙️ GitHub Actions CI
+* ☁️ Ubuntu/AWS EC2 deployment
+
+---
 
 ## 🚀 Features
 
-* 🛍️ Shopping web interface
-* 📦 Product management
-* ➕ Add products
-* 🔍 View all products
-* 🔎 Get a product by ID
-* ✏️ Update products
-* 🗑️ Delete products
-* 💾 SQLite database
-* 📡 FastAPI REST APIs
-* 📚 Swagger API documentation
-* 🐳 Docker containerization
-* 🧪 Automated testing with Pytest
-* ⚙️ GitHub Actions CI pipeline
+* Modern shopping web interface
+* Product management
+* Create products
+* View all products
+* View individual products
+* Update products
+* Delete products
+* SQLite database
+* FastAPI REST APIs
+* Interactive Swagger documentation
+* Automated testing with Pytest
+* Docker containerization
+* GitHub Actions CI pipeline
+* Ubuntu server deployment
+* AWS EC2 hosting
+
+---
 
 ## 🏗️ Architecture
 
 ```text
-                    ┌──────────────────┐
-                    │      Browser     │
-                    │   Shopping UI    │
-                    └────────┬─────────┘
+                         Developer
                              │
-                             │ HTTP :8000
+                             │ git push
                              ▼
-                    ┌──────────────────┐
-                    │     FastAPI      │
-                    │   Application    │
-                    └────────┬─────────┘
+                    ┌─────────────────┐
+                    │     GitHub      │
+                    │   Repository    │
+                    └────────┬────────┘
                              │
-                ┌────────────┴────────────┐
-                │                         │
-                ▼                         ▼
-        ┌──────────────┐          ┌──────────────┐
-        │  REST APIs   │          │    SQLite    │
-        │  /products   │          │   Database   │
-        └──────────────┘          └──────────────┘
+                             ▼
+                    ┌─────────────────┐
+                    │ GitHub Actions  │
+                    │      CI/CD      │
+                    └────────┬────────┘
+                             │
+                     ┌───────┴────────┐
+                     │                │
+                     ▼                ▼
+                Run Tests       Docker Build
+                     │                │
+                     └───────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │  Docker Image   │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │    AWS EC2      │
+                    │     Ubuntu      │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ FastAPI App     │
+                    │     :8000       │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │     SQLite      │
+                    │    Database     │
+                    └─────────────────┘
 ```
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology     | Purpose                 |
+| -------------- | ----------------------- |
+| Python         | Application development |
+| FastAPI        | Backend REST API        |
+| SQLite         | Database                |
+| HTML           | Web interface           |
+| CSS            | UI styling              |
+| JavaScript     | Frontend interaction    |
+| Jinja2         | HTML templates          |
+| Pytest         | Automated testing       |
+| Docker         | Containerization        |
+| GitHub Actions | CI/CD automation        |
+| Ubuntu         | Server environment      |
+| AWS EC2        | Cloud hosting           |
+| Git            | Version control         |
+
+---
 
 ## 📁 Project Structure
 
@@ -74,37 +185,28 @@ shopping-app/
 └── README.md
 ```
 
-## 🛠️ Technologies Used
-
-| Technology     | Purpose                  |
-| -------------- | ------------------------ |
-| Python         | Application programming  |
-| FastAPI        | Backend REST API         |
-| SQLite         | Database                 |
-| HTML           | Web UI                   |
-| CSS            | UI styling               |
-| JavaScript     | Frontend API interaction |
-| Pytest         | Automated testing        |
-| Docker         | Containerization         |
-| GitHub Actions | CI/CD automation         |
-| Ubuntu         | Application hosting      |
+---
 
 ## 📋 API Endpoints
 
-| Method | Endpoint         | Description             |
-| ------ | ---------------- | ----------------------- |
-| GET    | `/`              | Shopping application UI |
-| GET    | `/products`      | Get all products        |
-| GET    | `/products/{id}` | Get product by ID       |
-| POST   | `/products`      | Create a product        |
-| PUT    | `/products/{id}` | Update a product        |
-| DELETE | `/products/{id}` | Delete a product        |
+| Method   | Endpoint         | Description             |
+| -------- | ---------------- | ----------------------- |
+| `GET`    | `/`              | Shopping application UI |
+| `GET`    | `/products`      | Get all products        |
+| `GET`    | `/products/{id}` | Get product by ID       |
+| `POST`   | `/products`      | Create a product        |
+| `PUT`    | `/products/{id}` | Update a product        |
+| `DELETE` | `/products/{id}` | Delete a product        |
 
-## 📦 Product Example
+---
+
+## 📦 Product API
 
 ### Create Product
 
 **POST `/products`**
+
+Request:
 
 ```json
 {
@@ -114,7 +216,7 @@ shopping-app/
 }
 ```
 
-Example response:
+Response:
 
 ```json
 {
@@ -123,12 +225,95 @@ Example response:
 }
 ```
 
+---
+
+### Get All Products
+
+**GET `/products`**
+
+Example response:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Laptop",
+    "price": 65000,
+    "category": "Electronics"
+  },
+  {
+    "id": 2,
+    "name": "Headphones",
+    "price": 2500,
+    "category": "Electronics"
+  }
+]
+```
+
+---
+
+### Get Product by ID
+
+**GET `/products/1`**
+
+Example response:
+
+```json
+{
+  "id": 1,
+  "name": "Laptop",
+  "price": 65000,
+  "category": "Electronics"
+}
+```
+
+---
+
+### Update Product
+
+**PUT `/products/1`**
+
+Request:
+
+```json
+{
+  "name": "Gaming Laptop",
+  "price": 75000,
+  "category": "Electronics"
+}
+```
+
+Response:
+
+```json
+{
+  "message": "Product updated successfully"
+}
+```
+
+---
+
+### Delete Product
+
+**DELETE `/products/1`**
+
+Response:
+
+```json
+{
+  "message": "Product deleted successfully"
+}
+```
+
+---
+
 ## 💻 Run Locally
 
 ### 1. Clone the repository
 
 ```bash
 git clone <YOUR-GITHUB-REPOSITORY-URL>
+
 cd shopping-app
 ```
 
@@ -140,13 +325,13 @@ python3 -m venv venv
 
 ### 3. Activate the virtual environment
 
-For Ubuntu/Linux:
+Ubuntu/Linux:
 
 ```bash
 source venv/bin/activate
 ```
 
-For Windows:
+Windows:
 
 ```powershell
 venv\Scripts\activate
@@ -164,15 +349,46 @@ pip install -r requirements.txt
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-The application will be available at:
+Application:
 
 ```text
 http://localhost:8000
 ```
 
-## 📚 Swagger Documentation
+---
 
-FastAPI automatically provides interactive API documentation.
+## 🌐 Access the Application on AWS EC2
+
+When running on an Ubuntu EC2 instance:
+
+```text
+http://YOUR-EC2-PUBLIC-IP:8000
+```
+
+For example:
+
+```text
+http://YOUR-EC2-PUBLIC-IP:8000
+```
+
+Make sure TCP port `8000` is allowed in the EC2 Security Group.
+
+### EC2 Security Group
+
+```text
+Type:      Custom TCP
+Protocol:  TCP
+Port:      8000
+Source:    My IP
+```
+
+For temporary testing, `0.0.0.0/0` can be used, but restricting access to your IP is recommended.
+
+---
+
+## 📚 Swagger API Documentation
+
+FastAPI provides interactive API documentation automatically.
 
 Open:
 
@@ -180,11 +396,21 @@ Open:
 http://localhost:8000/docs
 ```
 
+For EC2:
+
+```text
+http://YOUR-EC2-PUBLIC-IP:8000/docs
+```
+
 You can test all product APIs directly from Swagger UI.
 
-## 🧪 Run Tests
+---
 
-Run the automated tests with:
+## 🧪 Testing
+
+The project uses **Pytest** for automated testing.
+
+Run:
 
 ```bash
 pytest -v
@@ -194,22 +420,23 @@ Example:
 
 ```text
 ============================= test session starts =============================
-collected 3 items
 
-tests/test_main.py ...                                                [100%]
+tests/test_main.py ...                                               [100%]
 
 ============================== 3 passed =======================================
 ```
 
-## 🐳 Run with Docker
+---
 
-### Build the Docker image
+## 🐳 Docker
+
+### Build Docker Image
 
 ```bash
 docker build -t shopping-app .
 ```
 
-### Run the container
+### Run Container
 
 ```bash
 docker run -d \
@@ -236,33 +463,34 @@ Swagger:
 http://localhost:8000/docs
 ```
 
-### Stop the container
+### Stop Container
 
 ```bash
 docker stop shopping-container
 ```
 
-### Remove the container
+### Remove Container
 
 ```bash
 docker rm shopping-container
 ```
 
-## ⚙️ GitHub Actions CI/CD
+---
 
-The project includes a GitHub Actions workflow:
+## ⚙️ GitHub Actions
+
+The project uses **GitHub Actions** for continuous integration.
+
+Workflow:
 
 ```text
 .github/workflows/ci.yml
 ```
 
-The CI pipeline performs:
+The pipeline performs:
 
 ```text
 Git Push
-    │
-    ▼
-GitHub Actions
     │
     ▼
 Checkout Code
@@ -277,82 +505,105 @@ Install Dependencies
 Run Pytest
     │
     ▼
+Tests Passed
+    │
+    ▼
 Build Docker Image
 ```
 
-The Docker build runs only after the tests successfully pass.
+The Docker image is built only after the tests pass.
 
-## 🔄 CI Workflow
+---
 
-```yaml
-test
-  │
-  ├── Checkout Code
-  ├── Setup Python
-  ├── Install Dependencies
-  └── Run Tests
-          │
-          ▼
-     Tests Passed
-          │
-          ▼
-    Docker Build
-```
-
-## ☁️ Deployment
-
-The application can be deployed to an Ubuntu server or AWS EC2 instance.
-
-Example architecture:
+## 🔄 CI Pipeline
 
 ```text
-Developer
-    │
-    │ git push
-    ▼
-GitHub
-    │
-    ▼
-GitHub Actions
-    │
-    ├── Run Tests
-    ├── Build Docker Image
-    │
-    ▼
-Docker Image
-    │
-    ▼
-AWS EC2 / Ubuntu
-    │
-    ▼
-FastAPI Container
-    │
-    ▼
-Shopping App
+                    Git Push
+                       │
+                       ▼
+                GitHub Actions
+                       │
+                       ▼
+                 Checkout Code
+                       │
+                       ▼
+                  Setup Python
+                       │
+                       ▼
+              Install Dependencies
+                       │
+                       ▼
+                  Run Pytest
+                       │
+                 ┌─────┴─────┐
+                 │           │
+              Failed       Passed
+                 │           │
+                 ▼           ▼
+                Stop    Docker Build
+                            │
+                            ▼
+                       Docker Image
 ```
+
+---
+
+## ☁️ AWS EC2 Deployment
+
+The application can be deployed on an Ubuntu AWS EC2 instance.
+
+Deployment architecture:
+
+```text
+                        Internet
+                           │
+                           │ HTTP :8000
+                           ▼
+                  ┌──────────────────┐
+                  │     AWS EC2      │
+                  │      Ubuntu      │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Docker Container │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                       FastAPI
+                           │
+                           ▼
+                        SQLite
+```
+
+---
 
 ## 🔐 Security Considerations
 
 For production deployment:
 
-* Do not commit secrets to GitHub.
-* Use GitHub Secrets for credentials.
+* Do not commit passwords or API keys.
+* Use GitHub Secrets for sensitive credentials.
 * Restrict EC2 Security Group access.
-* Use HTTPS with a reverse proxy.
-* Avoid exposing unnecessary ports.
+* Use HTTPS.
 * Use environment variables for configuration.
-* Use a production-grade database for larger workloads.
+* Avoid exposing unnecessary ports.
+* Use PostgreSQL for larger production workloads.
+* Use a reverse proxy such as Nginx.
+* Keep dependencies updated.
+
+---
 
 ## 📈 Future Improvements
 
-The application can be extended with:
+Planned improvements include:
 
 * 👤 User authentication
+* 🔐 JWT authentication
 * 🛒 Shopping cart
 * ❤️ Wishlist
 * 💳 Payment integration
 * 📦 Order management
-* 🔐 JWT authentication
 * 🐘 PostgreSQL
 * 🔴 Redis caching
 * 🌐 Nginx reverse proxy
@@ -360,23 +611,42 @@ The application can be extended with:
 * 🐳 Docker Compose
 * 🚀 Automated deployment
 * ☸️ Kubernetes deployment
-* 🔍 Monitoring and logging
+* 📊 Monitoring
+* 📝 Centralized logging
+* ❤️ Health checks
 
-## 👨‍💻 DevOps Learning Goals
+---
 
-This project is designed to demonstrate practical DevOps concepts including:
+## 🎯 DevOps Learning Goals
 
-* Git and GitHub
+This project demonstrates practical experience with:
+
 * Linux/Ubuntu
-* Python application deployment
+* Python
+* FastAPI
 * REST APIs
+* SQLite
+* Git
+* GitHub
 * Docker
+* Dockerfile
 * Container management
 * Automated testing
 * GitHub Actions
-* CI/CD pipelines
-* AWS EC2 deployment
+* CI/CD
+* AWS EC2
+* Application deployment
+
+---
+
+## 👨‍💻 Author
+
+**Abusufiyan Khan**
+
+DevOps / Cloud / Infrastructure Enthusiast
+
+---
 
 ## 📄 License
 
-This project is for learning and demonstration purposes.
+This project is created for learning and demonstration purposes.
