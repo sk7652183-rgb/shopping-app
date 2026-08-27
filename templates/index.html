@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopEasy</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🛍️ ShopEasy
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="#products">Products</a>
+        <a href="#add-product">Add Product</a>
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>Welcome to ShopEasy</h1>
+
+        <p>
+            Discover great products at amazing prices.
+        </p>
+
+        <a href="#products" class="hero-button">
+            Shop Now
+        </a>
+
+    </div>
+
+</section>
+
+
+<section id="products" class="products-section">
+
+    <div class="section-header">
+
+        <div>
+            <h2>Our Products</h2>
+            <p>Browse our latest products</p>
+        </div>
+
+        <button onclick="loadProducts()" class="refresh-button">
+            🔄 Refresh
+        </button>
+
+    </div>
+
+
+    <div id="products-container" class="products-grid">
+
+        <p class="loading">
+            Loading products...
+        </p>
+
+    </div>
+
+</section>
+
+
+<section id="add-product" class="add-section">
+
+    <div class="form-card">
+
+        <h2>Add New Product</h2>
+
+        <p>Add a product to your shopping store.</p>
+
+        <form id="product-form">
+
+            <div class="form-group">
+
+                <label>Product Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Example: Laptop"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Price</label>
+
+                <input
+                    type="number"
+                    id="price"
+                    placeholder="65000"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Category</label>
+
+                <input
+                    type="text"
+                    id="category"
+                    placeholder="Electronics"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit" class="add-button">
+                ➕ Add Product
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>© 2026 ShopEasy | FastAPI Shopping App</p>
+
+</footer>
+
+
+<script>
+
+async function loadProducts() {
+
+    const container =
+        document.getElementById("products-container");
+
+    container.innerHTML =
+        '<p class="loading">Loading products...</p>';
+
+    try {
+
+        const response = await fetch("/products");
+
+        const products = await response.json();
+
+        if (products.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    <h3>No Products Yet</h3>
+                    <p>Add your first product below.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML = products.map(product => `
+
+            <div class="product-card">
+
+                <div class="product-image">
+                    🛍️
+                </div>
+
+                <div class="product-content">
+
+                    <span class="category">
+                        ${product.category}
+                    </span>
+
+                    <h3>
+                        ${product.name}
+                    </h3>
+
+                    <div class="product-bottom">
+
+                        <span class="price">
+                            ₹${Number(product.price).toLocaleString("en-IN")}
+                        </span>
+
+                        <button
+                            class="delete-button"
+                            onclick="deleteProduct(${product.id})"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        container.innerHTML = `
+            <div class="error">
+                Unable to load products.
+            </div>
+        `;
+
+        console.error(error);
+    }
+}
+
+
+document
+    .getElementById("product-form")
+    .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const name =
+            document.getElementById("name").value;
+
+        const price =
+            document.getElementById("price").value;
+
+        const category =
+            document.getElementById("category").value;
+
+
+        const response = await fetch("/products", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                name: name,
+                price: Number(price),
+                category: category
+            })
+
+        });
+
+
+        if (response.ok) {
+
+            alert("Product added successfully!");
+
+            document
+                .getElementById("product-form")
+                .reset();
+
+            loadProducts();
+
+            document
+                .getElementById("products")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        } else {
+
+            alert("Failed to add product.");
+
+        }
+
+    });
+
+
+async function deleteProduct(id) {
+
+    const confirmed =
+        confirm("Are you sure you want to delete this product?");
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const response =
+        await fetch(`/products/${id}`, {
+            method: "DELETE"
+        });
+
+
+    if (response.ok) {
+
+        alert("Product deleted!");
+
+        loadProducts();
+
+    } else {
+
+        alert("Failed to delete product.");
+
+    }
+
+}
+
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
