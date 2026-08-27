@@ -6,81 +6,21 @@ The application provides a web-based shopping interface and REST APIs for managi
 
 ---
 
-## 🎥 Demo Video
-
-### 📺 Application Demo
-
-Watch the complete demonstration of the FastAPI Shopping App:
-
-**▶️ [Watch Shopping App Demo]( 
-
-https://github.com/user-attachments/assets/6ff207e4-1aa2-41d3-93bf-4cf6c761c52c
-
-)**
-
-> The demo covers the Shopping UI, product management, FastAPI REST APIs, SQLite database, Docker containerization, automated testing, GitHub Actions, and deployment on Ubuntu/AWS EC2.
-
-### 🚀 Demo Flow
-
-```text
-                    Shopping App
-                         │
-                         ▼
-                  Web Application
-                         │
-             ┌───────────┴───────────┐
-             ▼                       ▼
-       View Products             Add Product
-             │                       │
-             │                       ▼
-             │                SQLite Database
-             │                       │
-             └───────────┬───────────┘
-                         ▼
-                  FastAPI REST API
-                         │
-                         ▼
-                  Docker Container
-                         │
-                         ▼
-                  GitHub Actions
-```
-
-### 🎬 Demo Includes
-
-* 🏠 Shopping application homepage
-* 📦 Product listing
-* ➕ Add new product
-* 🔎 View product
-* ✏️ Update product
-* 🗑️ Delete product
-* 💾 SQLite database
-* 📡 FastAPI REST APIs
-* 📚 Swagger UI
-* 🐳 Docker containerization
-* 🧪 Pytest automated testing
-* ⚙️ GitHub Actions CI
-* ☁️ Ubuntu/AWS EC2 deployment
-
----
-
 ## 🚀 Features
 
-* Modern shopping web interface
-* Product management
-* Create products
-* View all products
-* View individual products
-* Update products
-* Delete products
-* SQLite database
-* FastAPI REST APIs
-* Interactive Swagger documentation
-* Automated testing with Pytest
-* Docker containerization
-* GitHub Actions CI pipeline
-* Ubuntu server deployment
-* AWS EC2 hosting
+* 🛍️ Modern shopping web interface
+* 📦 Product management
+* ➕ Create products
+* 🔎 View products
+* ✏️ Update products
+* 🗑️ Delete products
+* 💾 SQLite database
+* 📡 FastAPI REST APIs
+* 📚 Swagger API documentation
+* 🧪 Automated testing with Pytest
+* 🐳 Docker containerization
+* ⚙️ GitHub Actions CI pipeline
+* ☁️ Ubuntu/AWS EC2 deployment
 
 ---
 
@@ -195,8 +135,8 @@ shopping-app/
 | `GET`    | `/products`      | Get all products        |
 | `GET`    | `/products/{id}` | Get product by ID       |
 | `POST`   | `/products`      | Create a product        |
-| `PUT`    | `/products/{id}` | Update a product        |
-| `DELETE` | `/products/{id}` | Delete a product        |
+| `PUT`    | `/products/{id}` | Update product          |
+| `DELETE` | `/products/{id}` | Delete product          |
 
 ---
 
@@ -206,8 +146,6 @@ shopping-app/
 
 **POST `/products`**
 
-Request:
-
 ```json
 {
   "name": "Laptop",
@@ -216,7 +154,7 @@ Request:
 }
 ```
 
-Response:
+Example response:
 
 ```json
 {
@@ -225,13 +163,9 @@ Response:
 }
 ```
 
----
-
 ### Get All Products
 
 **GET `/products`**
-
-Example response:
 
 ```json
 [
@@ -250,13 +184,9 @@ Example response:
 ]
 ```
 
----
-
 ### Get Product by ID
 
 **GET `/products/1`**
-
-Example response:
 
 ```json
 {
@@ -267,13 +197,9 @@ Example response:
 }
 ```
 
----
-
 ### Update Product
 
 **PUT `/products/1`**
-
-Request:
 
 ```json
 {
@@ -283,7 +209,7 @@ Request:
 }
 ```
 
-Response:
+Example response:
 
 ```json
 {
@@ -291,13 +217,9 @@ Response:
 }
 ```
 
----
-
 ### Delete Product
 
 **DELETE `/products/1`**
-
-Response:
 
 ```json
 {
@@ -309,21 +231,20 @@ Response:
 
 ## 💻 Run Locally
 
-### 1. Clone the repository
+### Clone the Repository
 
 ```bash
 git clone <YOUR-GITHUB-REPOSITORY-URL>
-
 cd shopping-app
 ```
 
-### 2. Create a virtual environment
+### Create Virtual Environment
 
 ```bash
 python3 -m venv venv
 ```
 
-### 3. Activate the virtual environment
+### Activate Virtual Environment
 
 Ubuntu/Linux:
 
@@ -337,13 +258,13 @@ Windows:
 venv\Scripts\activate
 ```
 
-### 4. Install dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Start the application
+### Start the Application
 
 ```bash
 python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -365,12 +286,6 @@ When running on an Ubuntu EC2 instance:
 http://YOUR-EC2-PUBLIC-IP:8000
 ```
 
-For example:
-
-```text
-http://YOUR-EC2-PUBLIC-IP:8000
-```
-
 Make sure TCP port `8000` is allowed in the EC2 Security Group.
 
 ### EC2 Security Group
@@ -381,8 +296,6 @@ Protocol:  TCP
 Port:      8000
 Source:    My IP
 ```
-
-For temporary testing, `0.0.0.0/0` can be used, but restricting access to your IP is recommended.
 
 ---
 
@@ -408,9 +321,7 @@ You can test all product APIs directly from Swagger UI.
 
 ## 🧪 Testing
 
-The project uses **Pytest** for automated testing.
-
-Run:
+Run the automated tests:
 
 ```bash
 pytest -v
@@ -445,7 +356,7 @@ docker run -d \
   shopping-app
 ```
 
-Check the running container:
+Check the container:
 
 ```bash
 docker ps
@@ -481,7 +392,7 @@ docker rm shopping-container
 
 The project uses **GitHub Actions** for continuous integration.
 
-Workflow:
+Workflow file:
 
 ```text
 .github/workflows/ci.yml
@@ -552,8 +463,6 @@ The Docker image is built only after the tests pass.
 
 The application can be deployed on an Ubuntu AWS EC2 instance.
 
-Deployment architecture:
-
 ```text
                         Internet
                            │
@@ -595,8 +504,6 @@ For production deployment:
 ---
 
 ## 📈 Future Improvements
-
-Planned improvements include:
 
 * 👤 User authentication
 * 🔐 JWT authentication
@@ -650,3 +557,35 @@ DevOps / Cloud / Infrastructure Enthusiast
 ## 📄 License
 
 This project is created for learning and demonstration purposes.
+
+---
+
+## 🎥 Demo Video
+
+### 📺 Shopping App Demo
+
+Watch the complete demonstration of the **FastAPI Shopping App**:
+
+**▶️ [Watch Shopping App Demo] 
+
+
+
+https://github.com/user-attachments/assets/efed03e5-a69a-49fc-b373-7a535399deb5
+
+
+
+### Demo Includes
+
+* 🛍️ Shopping application UI
+* 📦 Product listing
+* ➕ Add product
+* 🔎 View product
+* ✏️ Update product
+* 🗑️ Delete product
+* 💾 SQLite database
+* 📡 FastAPI REST API
+* 📚 Swagger UI
+* 🐳 Docker containerization
+* 🧪 Automated testing
+* ⚙️ GitHub Actions CI
+* ☁️ AWS EC2 deployment
