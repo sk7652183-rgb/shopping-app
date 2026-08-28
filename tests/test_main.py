@@ -1,4 +1,4 @@
-# This file is for Testing purpose and this ia the test case 
+#This file is for testing purposes, and this is the test case.
 from fastapi.testclient import TestClient
 from app.main import app
 
