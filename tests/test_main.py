@@ -1,18 +1,24 @@
-# This file is for Testing purpose and this ia the test case 
+# This file is for testing purposes and contains the test cases.
+
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
-client = TestClient(app)
+
+@pytest.fixture
+def client():
+    with TestClient(app) as client:
+        yield client
 
 
-def test_home():
+def test_home(client):
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json()["message"] == "Shopping App API is running"
+    assert "text/html" in response.headers["content-type"]
 
 
-def test_create_product():
+def test_create_product(client):
     response = client.post(
         "/products",
         json={
@@ -26,7 +32,7 @@ def test_create_product():
     assert response.json()["message"] == "Product created successfully"
 
 
-def test_get_products():
+def test_get_products(client):
     response = client.get("/products")
 
     assert response.status_code == 200
