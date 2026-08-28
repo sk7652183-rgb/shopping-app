@@ -1,4 +1,4 @@
-#This file is for testing purposes, and this is the test case.
+# This file is for testing purposes and contains test cases.
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -7,9 +7,8 @@ client = TestClient(app)
 
 def test_home():
     response = client.get("/")
-
     assert response.status_code == 200
-    assert response.json()["message"] == "Shopping App API is running"
+    assert "text/html" in response.headers["content-type"]
 
 
 def test_create_product():
@@ -21,13 +20,11 @@ def test_create_product():
             "category": "Electronics"
         }
     )
-
     assert response.status_code == 200
     assert response.json()["message"] == "Product created successfully"
 
 
 def test_get_products():
     response = client.get("/products")
-
     assert response.status_code == 200
     assert isinstance(response.json(), list)
