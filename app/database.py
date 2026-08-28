@@ -11,7 +11,6 @@ def get_connection():
 
 def init_db():
     connection = get_connection()
-
     connection.execute(
         """
         CREATE TABLE IF NOT EXISTS products (
@@ -22,6 +21,5 @@ def init_db():
         )
         """
     )
-
     connection.commit()
     connection.close()
