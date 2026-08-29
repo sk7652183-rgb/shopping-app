@@ -1,0 +1,42 @@
+name: Main-pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  # Job 1: Build and Test
+  build-test:
+    uses: ./.github/workflows/reusable-build-test.yml
+    with:
+      python_version: "3.12"
+      run_tests: true
+
+  # Job 2: Build and Push Docker Image
+  Docker_login:
+    needs: build-test
+    uses: ./.github/workflows/reusable-docker.yml
+    with:
+      tags: |
+        latest
+        sha-${{ github.sha }}
+
+  # Job 3: Deploy
+  Deploy:
+    needs: Docker_login
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout the Code
+        uses: actions/checkout@v4
+
+      - name: Log Deployment
+        run: |
+          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          IMAGE_URL="ghcr.io/${GITHUB_REPOSITORY}:sha-${SHORT_SHA}"
+
+          echo "Deploying image: ${IMAGE_URL} to production"
+
