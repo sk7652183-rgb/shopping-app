@@ -19,9 +19,8 @@ jobs:
     needs: build-test
     uses: ./.github/workflows/reusable-docker.yml
     with:
-      tags: |
-        latest
-        sha-${{ github.sha }}
+      image_name: shopping-app
+      tag: sha-${{ github.sha }}
 
   # Job 3: Deploy
   Deploy:
@@ -39,4 +38,3 @@ jobs:
           IMAGE_URL="ghcr.io/${GITHUB_REPOSITORY}:sha-${SHORT_SHA}"
 
           echo "Deploying image: ${IMAGE_URL} to production"
-
