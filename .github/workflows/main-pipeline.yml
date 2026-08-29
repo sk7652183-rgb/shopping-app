@@ -1,4 +1,4 @@
-```yaml
+
 name: Main-pipeline
 
 on:
@@ -40,4 +40,4 @@ jobs:
           IMAGE_URL="${{ needs.Docker_login.outputs.image_url }}"
 
           echo "Deploying image: ${IMAGE_URL} to production"
-```
+
