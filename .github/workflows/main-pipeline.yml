@@ -1,3 +1,4 @@
+```yaml
 name: Main-pipeline
 
 on:
@@ -21,6 +22,8 @@ jobs:
     with:
       image_name: shopping-app
       tag: sha-${{ github.sha }}
+    secrets:
+      docker_token: ${{ secrets.DOCKER_TOKEN }}
 
   # Job 3: Deploy
   Deploy:
@@ -34,7 +37,7 @@ jobs:
 
       - name: Log Deployment
         run: |
-          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-          IMAGE_URL="ghcr.io/${GITHUB_REPOSITORY}:sha-${SHORT_SHA}"
+          IMAGE_URL="${{ needs.Docker_login.outputs.image_url }}"
 
           echo "Deploying image: ${IMAGE_URL} to production"
+```
