@@ -22,7 +22,7 @@ jobs:
         run: |
           docker run -d \
             --name my-shopping-app \
-            -p 8080:8080 \
+            -p 8080:8000 \
             sufiyn/shopping-app:latest
 
       # Wait for application to start
