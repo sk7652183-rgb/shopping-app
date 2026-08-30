@@ -1,4 +1,4 @@
-```python
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -214,4 +214,4 @@ def delete_product(product_id: int):
     return {
         "message": "Product deleted successfully"
     }
-```
+
