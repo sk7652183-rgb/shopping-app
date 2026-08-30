@@ -1,0 +1,61 @@
+
+name: Health Check
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Pull latest Docker image
+      - name: Pull Docker Image
+        run: |
+          docker pull sufiyn/shopping-app:latest
+
+      # Run container in detached mode
+      - name: Run Container
+        run: |
+          docker run -d \
+            --name my-shopping-app \
+            -p 8080:8080 \
+            sufiyn/shopping-app:latest
+
+      # Wait for application to start
+      - name: Wait for Application
+        run: |
+          echo "Waiting 5 seconds for the application to start..."
+          sleep 5
+
+      # Check health endpoint
+      - name: Health Check
+        id: health
+        run: |
+          if curl --fail http://localhost:8080/health; then
+            echo "Health check PASSED"
+            echo "status=PASSED" >> "$GITHUB_OUTPUT"
+          else
+            echo "Health check FAILED"
+            echo "status=FAILED" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+
+      # Create GitHub Actions summary
+      - name: Create Health Check Summary
+        if: always()
+        run: |
+          echo "## Health Check Report" >> $GITHUB_STEP_SUMMARY
+          echo "- Image: sufiyn/shopping-app:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: ${{ steps.health.outputs.status || 'FAILED' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Time: $(date)" >> $GITHUB_STEP_SUMMARY
+
+      # Stop and remove container
+      - name: Stop and Remove Container
+        if: always()
+        run: |
+          docker stop my-shopping-app || true
+          docker rm my-shopping-app || true
