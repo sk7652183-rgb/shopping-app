@@ -1,3 +1,4 @@
+```python
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -6,11 +7,14 @@ from pydantic import BaseModel
 
 from app.database import get_connection, init_db
 
+
 # Create FastAPI application
 app = FastAPI(title="Shopping App")
 
-# Initialize database (runs at import time, before any requests/tests hit the app)
+
+# Initialize database
 init_db()
+
 
 # Serve CSS, JavaScript, images, etc.
 app.mount(
@@ -19,11 +23,15 @@ app.mount(
     name="static"
 )
 
+
 # Configure HTML templates
 templates = Jinja2Templates(directory="app/templates")
 
 
-# Product model
+# --------------------------------------------------
+# PRODUCT MODEL
+# --------------------------------------------------
+
 class Product(BaseModel):
     name: str
     price: float
@@ -33,6 +41,7 @@ class Product(BaseModel):
 # --------------------------------------------------
 # HOME PAGE / UI
 # --------------------------------------------------
+
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse(
@@ -42,28 +51,46 @@ def home(request: Request):
 
 
 # --------------------------------------------------
+# HEALTH CHECK
+# --------------------------------------------------
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy"
+    }
+
+
+# --------------------------------------------------
 # GET ALL PRODUCTS
 # --------------------------------------------------
+
 @app.get("/products")
 def get_products():
     connection = get_connection()
+
     products = connection.execute(
         "SELECT * FROM products"
     ).fetchall()
+
     connection.close()
+
     return [dict(product) for product in products]
 
 
 # --------------------------------------------------
 # GET PRODUCT BY ID
 # --------------------------------------------------
+
 @app.get("/products/{product_id}")
 def get_product(product_id: int):
     connection = get_connection()
+
     product = connection.execute(
         "SELECT * FROM products WHERE id = ?",
         (product_id,)
     ).fetchone()
+
     connection.close()
 
     if product is None:
@@ -71,15 +98,18 @@ def get_product(product_id: int):
             status_code=404,
             detail="Product not found"
         )
+
     return dict(product)
 
 
 # --------------------------------------------------
 # CREATE PRODUCT
 # --------------------------------------------------
+
 @app.post("/products")
 def create_product(product: Product):
     connection = get_connection()
+
     cursor = connection.execute(
         """
         INSERT INTO products
@@ -92,8 +122,11 @@ def create_product(product: Product):
             product.category
         )
     )
+
     connection.commit()
+
     product_id = cursor.lastrowid
+
     connection.close()
 
     return {
@@ -105,9 +138,11 @@ def create_product(product: Product):
 # --------------------------------------------------
 # UPDATE PRODUCT
 # --------------------------------------------------
+
 @app.put("/products/{product_id}")
 def update_product(product_id: int, product: Product):
     connection = get_connection()
+
     existing = connection.execute(
         "SELECT * FROM products WHERE id = ?",
         (product_id,)
@@ -115,6 +150,7 @@ def update_product(product_id: int, product: Product):
 
     if existing is None:
         connection.close()
+
         raise HTTPException(
             status_code=404,
             detail="Product not found"
@@ -135,7 +171,9 @@ def update_product(product_id: int, product: Product):
             product_id
         )
     )
+
     connection.commit()
+
     connection.close()
 
     return {
@@ -146,9 +184,11 @@ def update_product(product_id: int, product: Product):
 # --------------------------------------------------
 # DELETE PRODUCT
 # --------------------------------------------------
+
 @app.delete("/products/{product_id}")
 def delete_product(product_id: int):
     connection = get_connection()
+
     existing = connection.execute(
         "SELECT * FROM products WHERE id = ?",
         (product_id,)
@@ -156,6 +196,7 @@ def delete_product(product_id: int):
 
     if existing is None:
         connection.close()
+
         raise HTTPException(
             status_code=404,
             detail="Product not found"
@@ -165,9 +206,12 @@ def delete_product(product_id: int):
         "DELETE FROM products WHERE id = ?",
         (product_id,)
     )
+
     connection.commit()
+
     connection.close()
 
     return {
         "message": "Product deleted successfully"
     }
+```
