@@ -44,8 +44,8 @@ jobs:
           username: ${{ vars.docker_username }}
           password: ${{ secrets.docker_token }}
 
-      # Build and Push Docker Images
-      - name: Build and Push Docker Image
+      # Build Docker Image
+      - name: Build Docker Image
         id: build
         run: |
           IMAGE_NAME="${{ vars.docker_username }}/${{ inputs.image_name }}"
@@ -58,25 +58,38 @@ jobs:
           echo "$SHA_IMAGE"
 
           docker build \
+            --pull \
+            --no-cache \
             -t "$LATEST_IMAGE" \
             -t "$SHA_IMAGE" \
             .
 
-          docker push "$LATEST_IMAGE"
-          docker push "$SHA_IMAGE"
-
-          # Output the SHA-tagged image URL
+          # Output SHA-tagged image URL
           echo "image_url=$SHA_IMAGE" >> "$GITHUB_OUTPUT"
-          echo "Docker images pushed successfully:"
-          echo "$LATEST_IMAGE"
-          echo "$SHA_IMAGE"
 
-
+      # Scan Docker Image BEFORE pushing
       - name: Scan Docker Image for Vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: '${{ vars.docker_username }}/${{ inputs.image_name }}:latest'
           format: 'table'
           exit-code: '1'
-          severity: 'CRITICAL,HIGH'    
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: false
 
+      # Push Docker Images ONLY if Trivy passes
+      - name: Push Docker Images
+        run: |
+          IMAGE_NAME="${{ vars.docker_username }}/${{ inputs.image_name }}"
+
+          LATEST_IMAGE="${IMAGE_NAME}:latest"
+          SHA_IMAGE="${IMAGE_NAME}:sha-${{ steps.vars.outputs.short_sha }}"
+
+          echo "Pushing Docker images:"
+          echo "$LATEST_IMAGE"
+          echo "$SHA_IMAGE"
+
+          docker push "$LATEST_IMAGE"
+          docker push "$SHA_IMAGE"
+
+          echo "Docker images pushed successfully."
