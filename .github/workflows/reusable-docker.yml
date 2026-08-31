@@ -1,4 +1,3 @@
-
 name: Reusable Docker Workflow
 
 on:
@@ -68,8 +67,16 @@ jobs:
 
           # Output the SHA-tagged image URL
           echo "image_url=$SHA_IMAGE" >> "$GITHUB_OUTPUT"
-
           echo "Docker images pushed successfully:"
           echo "$LATEST_IMAGE"
           echo "$SHA_IMAGE"
+
+
+      - name: Scan Docker Image for Vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ vars.docker_username }}/${{ inputs.image_name }}:latest'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'    
 
