@@ -1,8 +1,7 @@
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
 WORKDIR /app
 
-# Update Debian packages and remove unnecessary cache
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get clean \
