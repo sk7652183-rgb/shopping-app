@@ -22,3 +22,8 @@ jobs:
       - name: PR Summary
         run: |
           echo "PR checks passed for branch: ${{ github.head_ref }}"
+
+      - name: Dependencies for Vulnerabilities
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
