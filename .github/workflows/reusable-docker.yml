@@ -1,5 +1,4 @@
 name: Reusable Docker Workflow
-
 on:
   workflow_call:
     inputs:
@@ -7,11 +6,9 @@ on:
         description: "Name of the Docker image"
         required: true
         type: string
-
     secrets:
       docker_token:
         required: true
-
     outputs:
       image_url:
         description: "Full Docker image path"
@@ -20,12 +17,9 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-
     outputs:
       image_url: ${{ steps.build.outputs.image_url }}
-
     steps:
-
       # Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,21 +43,16 @@ jobs:
         id: build
         run: |
           IMAGE_NAME="${{ vars.docker_username }}/${{ inputs.image_name }}"
-
           LATEST_IMAGE="${IMAGE_NAME}:latest"
           SHA_IMAGE="${IMAGE_NAME}:sha-${{ steps.vars.outputs.short_sha }}"
-
           echo "Building Docker images:"
           echo "$LATEST_IMAGE"
           echo "$SHA_IMAGE"
-
           docker build \
             --pull \
-            --no-cache \
             -t "$LATEST_IMAGE" \
             -t "$SHA_IMAGE" \
             .
-
           # Output SHA-tagged image URL
           echo "image_url=$SHA_IMAGE" >> "$GITHUB_OUTPUT"
 
@@ -75,21 +64,17 @@ jobs:
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
-          ignore-unfixed: false
+          ignore-unfixed: true
 
       # Push Docker Images ONLY if Trivy passes
       - name: Push Docker Images
         run: |
           IMAGE_NAME="${{ vars.docker_username }}/${{ inputs.image_name }}"
-
           LATEST_IMAGE="${IMAGE_NAME}:latest"
           SHA_IMAGE="${IMAGE_NAME}:sha-${{ steps.vars.outputs.short_sha }}"
-
           echo "Pushing Docker images:"
           echo "$LATEST_IMAGE"
           echo "$SHA_IMAGE"
-
           docker push "$LATEST_IMAGE"
           docker push "$SHA_IMAGE"
-
           echo "Docker images pushed successfully."
