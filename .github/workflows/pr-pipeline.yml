@@ -1,5 +1,4 @@
 name: PR Checks
-
 on:
   pull_request:
     branches:
@@ -7,7 +6,6 @@ on:
     types:
       - opened
       - synchronize
-
 jobs:
   build-test:
     uses: ./.github/workflows/reusable-build-test.yml
@@ -20,6 +18,8 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       - name: PR Summary
         run: |
           echo "PR checks passed for branch: ${{ github.head_ref }}"
