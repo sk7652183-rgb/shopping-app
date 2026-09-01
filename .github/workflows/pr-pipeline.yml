@@ -13,16 +13,16 @@ jobs:
     uses: ./.github/workflows/reusable-build-test.yml
     with:
       run_tests: true
-
   pr-comment:
     needs: build-test
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: PR Summary
         run: |
           echo "PR checks passed for branch: ${{ github.head_ref }}"
-
       - name: Dependencies for Vulnerabilities
         uses: actions/dependency-review-action@v4
         with:
